@@ -22,32 +22,16 @@
       min-height: 100vh;
       overflow-x: hidden;
       position: relative;
-      transition: background 0.6s ease;
-    }
-
-    body.light {
-      background: linear-gradient(180deg, #bae6fd 0%, #e0f2fe 100%);
-      color: #1a0f2e;
     }
 
     /* Stars (only dark) */
     #stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
     .star { position: absolute; background: #f8f8ff; border-radius: 50%; box-shadow: 0 0 6px #c4b5fd; animation: twinkle-real 4s infinite ease-in-out; }
     @keyframes twinkle-real { 0%,100% { opacity: 0.35; transform: scale(0.85); } 50% { opacity: 0.95; transform: scale(1.15); } }
-    body.light #stars { display: none; }
 
     /* Shooting stars */
     .shooting-star { position: fixed; width: 3px; height: 3px; background: #fff; border-radius: 50%; box-shadow: 0 0 12px #fff, 0 0 24px #c4b5fd; z-index: 1; animation: shoot 1.4s linear forwards; pointer-events: none; }
     @keyframes shoot { 0% { transform: translate(0,0) rotate(-35deg); opacity: 1; } 100% { transform: translate(900px,-900px) rotate(-35deg); opacity: 0; } }
-
-    /* Sun & Clouds (light mode only) */
-    #sun { position: fixed; top: 90px; right: 15%; font-size: 130px; filter: drop-shadow(0 0 50px #fbbf24); animation: sunFloat 8s ease-in-out infinite; z-index: 1; display: none; }
-    body.light #sun { display: block; }
-    @keyframes sunFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-25px); } }
-
-    .cloud { position: fixed; font-size: 70px; opacity: 0.35; animation: drift linear infinite; pointer-events: none; z-index: 1; display: none; }
-    body.light .cloud { display: block; }
-    @keyframes drift { from { transform: translateX(-200px); } to { transform: translateX(120vw); } }
 
     /* Nav - clean like other pages */
     nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 40px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 10; }
@@ -56,15 +40,10 @@
     .nav-links a { font-size: 14px; color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover, .nav-links a.active { color: var(--purple); }
 
-    /* Theme toggle */
-    #theme-toggle { font-size: 13px; padding: 6px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(179,136,255,0.2); border-radius: 9999px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
-
     /* Hero */
     .hero { text-align: center; padding: 60px 24px 40px; max-width: 700px; margin: 0 auto; position: relative; z-index: 2; }
     .hero-logo { font-family: 'Playfair Display', serif; font-size: clamp(42px, 8vw, 68px); font-weight: 700; letter-spacing: -2px; position: relative; animation: logoSparkle 4s ease-in-out infinite; }
     @keyframes logoSparkle { 0%,100% { text-shadow: 0 0 15px #c084fc, 0 0 30px #a855f7; } 50% { text-shadow: 0 0 35px #c084fc, 0 0 60px #a855f7, 0 0 80px #d8b4fe; } }
-    body.light .hero-logo { animation: logoSparkleLight 4s ease-in-out infinite; }
-    @keyframes logoSparkleLight { 0%,100% { text-shadow: 0 0 15px #fb923c, 0 0 30px #f59e0b; } 50% { text-shadow: 0 0 35px #fb923c, 0 0 60px #f59e0b, 0 0 80px #fed7aa; } }
 
     .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 48px); font-weight: 700; line-height: 1.15; margin: 16px 0 24px; }
     .hero p { font-size: 16px; color: var(--text-secondary); max-width: 520px; margin: 0 auto 32px; }
@@ -79,9 +58,7 @@
     .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
 
     .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 32px 24px; text-align: center; transition: all 0.3s ease; }
-    body.light .card { background: rgba(255,255,255,0.9); border-color: #d8b4fe; }
     .card:hover { transform: translateY(-4px); box-shadow: 0 0 30px rgba(179,136,255,0.3); }
-    body.light .card:hover { box-shadow: 0 0 30px rgba(251,146,60,0.3); }
 
     .phone-frame {
       width: 100%;
@@ -119,12 +96,65 @@
     }
 
     footer { text-align: center; padding: 40px 20px; font-size: 13px; color: rgba(255,255,255,0.4); border-top: 1px solid rgba(255,255,255,0.06); }
-    body.light footer { color: rgba(26,15,46,0.6); }
-
     @media (max-width: 768px) {
-      nav { padding: 16px 20px; }
-      .nav-links { gap: 20px; }
+      nav {
+        padding: 16px 18px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .nav-links {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 14px;
+      }
+      .nav-links a {
+        font-size: 13px;
+      }
+      .hero {
+        padding: 34px 16px 24px;
+      }
+      .hero h1 {
+        margin: 12px 0 16px;
+        line-height: 1.2;
+      }
+      .hero p {
+        margin: 0 auto 24px;
+        font-size: 15px;
+      }
+      .store-buttons {
+        width: 100%;
+      }
+      .store-btn {
+        flex: 1 1 165px;
+        justify-content: center;
+        min-height: 46px;
+      }
+      .cards-section {
+        padding: 24px 16px 56px;
+      }
       .cards-grid { grid-template-columns: 1fr; }
+      .card {
+        padding: 24px 18px;
+      }
+      .phone-frame {
+        max-width: 210px;
+        height: 400px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .hero-logo {
+        letter-spacing: -1px;
+      }
+      .nav-links {
+        grid-template-columns: 1fr;
+      }
+      .phone-frame {
+        max-width: 190px;
+        height: 360px;
+      }
     }
   </style>
 </head>
@@ -132,12 +162,6 @@
 
   <!-- Stars (dark only) -->
   <div id="stars"></div>
-
-  <!-- Sun & Clouds (light only) -->
-  <div id="sun">☀️</div>
-  <div class="cloud" style="top:120px;left:10%;animation-duration:45s;">☁️</div>
-  <div class="cloud" style="top:180px;left:25%;animation-duration:55s;animation-delay:8s;">☁️</div>
-  <div class="cloud" style="top:95px;left:45%;animation-duration:38s;animation-delay:15s;">☁️</div>
 
   <!-- Nav -->
   <nav>
@@ -148,7 +172,6 @@
       <a href="/how-it-works">How it Works</a>
       <a href="/pricing">Pricing</a>
     </div>
-    <div onclick="toggleTheme()" id="theme-toggle">☀️ Light</div>
   </nav>
 
   <!-- Hero -->
@@ -227,20 +250,6 @@
 
     createStars();
     setInterval(() => { if (Math.random() > 0.6) createShootingStar(); }, 8500);
-
-    // Light/Dark toggle
-    function toggleTheme() {
-      document.body.classList.toggle('light');
-      const toggle = document.getElementById('theme-toggle');
-      toggle.textContent = document.body.classList.contains('light') ? '🌙 Dark' : '☀️ Light';
-      localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
-    }
-
-    // Load saved theme
-    if (localStorage.getItem('theme') === 'light') {
-      document.body.classList.add('light');
-      document.getElementById('theme-toggle').textContent = '🌙 Dark';
-    }
 
     // Demos
     function showSparksDemo() { alert("📱 Today's Sparks in the real app!"); }
