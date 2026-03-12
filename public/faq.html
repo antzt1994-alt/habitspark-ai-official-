@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ — HabitSpark AI</title>
+  <meta name="description" content="Frequently asked questions about HabitSpark AI — pricing, AI coaching, streaks, privacy, and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-deep: #0D0B14;
+      --bg-card: rgba(255,255,255,0.03);
+      --bg-card-hover: rgba(255,255,255,0.05);
+      --border: rgba(255,255,255,0.06);
+      --purple: #B388FF;
+      --purple-dim: rgba(179,136,255,0.15);
+      --text-primary: rgba(255,255,255,0.9);
+      --text-secondary: rgba(255,255,255,0.6);
+      --text-muted: rgba(255,255,255,0.35);
+      --green: #81C784;
+      --amber: #FFD54F;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(180deg, #13111C 0%, var(--bg-deep) 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Nav ── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 40px; max-width: 1200px; margin: 0 auto;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700;
+      color: var(--text-primary); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      font-size: 14px; color: var(--text-secondary); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--purple); }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center; padding: 60px 24px 40px; max-width: 700px; margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-block; padding: 6px 16px; border-radius: 20px;
+      background: var(--purple-dim); border: 1px solid rgba(179,136,255,0.2);
+      font-size: 12px; font-weight: 600; color: var(--purple);
+      margin-bottom: 24px; letter-spacing: 0.5px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700; line-height: 1.2; margin-bottom: 16px;
+    }
+    .hero h1 span { color: var(--purple); }
+    .hero p {
+      font-size: 16px; color: var(--text-secondary); line-height: 1.7;
+      max-width: 520px; margin: 0 auto;
+    }
+
+    /* ── FAQ Section ── */
+    .faq-section {
+      max-width: 720px; margin: 0 auto; padding: 20px 24px 40px;
+    }
+    .faq-category-label {
+      font-size: 11px; font-weight: 600; color: var(--text-muted);
+      letter-spacing: 1.5px; text-transform: uppercase;
+      margin-bottom: 16px; margin-top: 40px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .faq-category-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: var(--border);
+    }
+
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 8px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .faq-item:hover {
+      border-color: rgba(179,136,255,0.12);
+    }
+    .faq-item.open {
+      border-color: rgba(179,136,255,0.2);
+      background: var(--bg-card-hover);
+    }
+
+    .faq-question {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 20px;
+      cursor: pointer;
+      user-select: none;
+      gap: 16px;
+    }
+    .faq-question-text {
+      display: flex; align-items: center; gap: 12px;
+      flex: 1;
+    }
+    .faq-emoji {
+      font-size: 18px; flex-shrink: 0;
+    }
+    .faq-q {
+      font-size: 14px; font-weight: 600;
+      color: var(--text-primary);
+    }
+    .faq-item.open .faq-q { color: var(--purple); }
+
+    .faq-toggle {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--text-muted);
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+    .faq-item.open .faq-toggle {
+      background: var(--purple-dim);
+      border-color: rgba(179,136,255,0.2);
+      color: var(--purple);
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+    }
+    .faq-answer-inner {
+      padding: 0 20px 20px 50px;
+      font-size: 13px; color: var(--text-secondary);
+      line-height: 1.8;
+    }
+    .faq-answer-inner a {
+      color: var(--purple); text-decoration: none;
+    }
+    .faq-answer-inner a:hover { text-decoration: underline; }
+
+    /* ── Still Have Questions ── */
+    .contact-section {
+      max-width: 720px; margin: 0 auto; padding: 40px 24px 60px;
+      text-align: center;
+    }
+    .contact-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 24px;
+    }
+    .contact-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .contact-card p {
+      font-size: 13px; color: var(--text-secondary);
+      margin-bottom: 20px; line-height: 1.7;
+    }
+    .contact-btn {
+      display: inline-block;
+      padding: 10px 24px; border-radius: 12px;
+      font-size: 13px; font-weight: 600;
+      text-decoration: none;
+      background: var(--purple-dim); color: var(--purple);
+      border: 1px solid rgba(179,136,255,0.2);
+      transition: all 0.2s;
+    }
+    .contact-btn:hover {
+      background: rgba(179,136,255,0.2);
+      transform: translateY(-1px);
+    }
+
+    /* ── CTA Section ── */
+    .cta-section {
+      text-align: center; padding: 20px 24px 80px; max-width: 600px; margin: 0 auto;
+    }
+    .cta-section h2 {
+      font-family: 'Playfair Display', serif; font-size: 32px;
+      font-weight: 700; margin-bottom: 12px;
+    }
+    .cta-section p {
+      font-size: 14px; color: var(--text-secondary); margin-bottom: 28px;
+    }
+    .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .cta-btn {
+      padding: 12px 28px; border-radius: 14px; font-size: 14px; font-weight: 600;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .cta-btn.primary {
+      background: var(--purple); color: #13111C;
+    }
+    .cta-btn.primary:hover { filter: brightness(1.15); transform: translateY(-1px); }
+    .cta-btn.secondary {
+      background: var(--purple-dim); color: var(--purple);
+      border: 1px solid rgba(179,136,255,0.2);
+    }
+    .cta-btn.secondary:hover { background: rgba(179,136,255,0.2); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center; padding: 24px; font-size: 12px; color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+    footer a {
+      color: var(--text-secondary); text-decoration: none; margin: 0 8px;
+      transition: color 0.2s;
+    }
+    footer a:hover { color: var(--purple); }
+
+    /* ── Animations ── */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate { animation: fade-up 0.6s ease both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { gap: 20px; }
+      .faq-answer-inner { padding-left: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="/" class="nav-logo">✨ HabitSpark AI</a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/features">Features</a>
+      <a href="/how-it-works">How it Works</a>
+      <a href="/pricing">Pricing</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero animate">
+    <div class="hero-badge">❓ FAQ</div>
+    <h1>Got <span>Questions?</span></h1>
+    <p>Everything you need to know about HabitSpark AI — from getting started to advanced features.</p>
+  </div>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+
+    <!-- Getting Started -->
+    <div class="faq-category-label animate delay-1">GETTING STARTED</div>
+
+    <div class="faq-item animate delay-1">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="faq-question-text">
+          <span class="faq-emoji">🆓</span>
+          <span class="faq-q">Is HabitSpark AI free?</span>
+        </div>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          HabitSpark has a generous free tier (Spark) that includes unlimited habit tracking, streaks, the full Stats dashboard, badges, and the social leaderboard. The free tier also includes local AI insights powered by our on-device analytics engine — no subscription needed. Spark Pro (£3.99/month or £29.99/year) unlocks personalised GPT-powered coaching, per-habit tips, AI habit suggestions, and adaptive tone messaging. <a href="/pricing">See our pricing page</a> for full details.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item animate delay-1">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="faq-question-text">
+          <span class="faq-emoji">📱</span>
+          <span class="faq-q">What devices does it work on?</span>
+        </div>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          HabitSpark AI is available on iOS (iPhone and iPad) and Android. Your data syncs across devices via your account, so you can check your habits anywhere.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item animate delay-1">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="faq-question-text">
+          <span class="faq-emoji">⏱️</span>
+          <span class="faq-q">How long does it take to set up?</span>
+        </div>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          About 30 seconds. Our onboarding walks you through picking your habit categories, choosing your coaching tone, and setting your reminder time. We create your starter habits automatically — you just pick what matters to you.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item animate delay-1">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="faq-question-text">
+          <span class="faq-emoji">💰</span>
+          <span class="faq-q">What's the difference between Spark and Spark Pro?</span>
+        </div>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Spark (free) gives you everything you need to track habits effectively — unlimited tracking, streaks, the full Stats dashboard with charts and heatmaps, all 14 badges, the social leaderboard, and local AI insights. Spark Pro (£3.99/month or £29.99/year) adds GPT-powered personalised coaching that references your actual data, per-habit coaching tips, AI-generated habit suggestions, and adaptive tone messaging. You can try Pro features for free and upgrade anytime. <a href="/pricing">Compare plans</a>.
+        </div>
+      </div>
+    </div>
+
+    <!-- AI & Coaching -->
+    <div class="faq-category-label animate delay-2">AI & COACHING</div>
+
+    <div class="faq-item animate delay-2">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="faq-question-text">
+          <span class="faq-emoji">🤖</span>
+          <span class="faq-q">How does the AI Coach work?</span>
+        </div>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          The AI Coach works in two layers. First, a local analytics engine crunches your habit data on-device — identifying your strongest days, weakest patterns, streak health, and momentum. This powers the AI Coach card on the home screen for all users, completely free. Spark Pro subscribers unlock the second layer: your analytics summary is sent to GPT-4o for deeply personalised coaching, per-habit tips, and habit suggestions that reference your actual data — like "You're strongest on Tuesdays at 92%."
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item animate delay-2">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="faq-question-text">
+          <span class="faq-emoji">💬</span>
+          <span class="faq-q">Can I change the coaching tone?</span>
+        </div>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Yes! During onboarding (or anytime in Settings), you can choose between three tones: Gentle (compassionate and understanding), Motivational (energetic and action-driven), or Neutral (calm and data-focused). The AI adapts all its messages to match your preference.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item animate delay-2">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="faq-question-text">
+          <span class="faq-emoji">💡</span>
+          <span class="faq-q">How does it suggest new habits?</span>
+        </div>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          The AI looks at what you already track and identifies gaps. If you have fitness and nutrition habits but nothing for mindfulness, it might suggest "15-min Evening Journal" and explain why it complements your routine. Suggestions are specific (not just "Exercise") and always include a reason tied to your data.
+        </div>
+      </div>
+    </div>
+
+    <!-- Habits & Tracking -->
+    <div class="faq-category-label animate delay-2">HABITS & TRACKING</div>
+
+    <div class="faq-item animate delay-2">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="faq-question-text">
+          <span class="faq-emoji">🔥</span>
+          <span class="faq-q">How do streaks work?</span>
+        </div>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          A streak counts consecutive days you've completed a habit. Tap the spark button each day to keep it going. If you miss a day, the streak resets — but the AI Coach will encourage you to bounce back rather than give up. Your longest streak is always saved, and you'll earn badges at 3, 7, 14, 21, 30, and 60 day milestones.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item animate delay-2">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="faq-question-text">
+          <span class="faq-emoji">📊</span>
+          <span class="faq-q">What stats can I see?</span>
+        </div>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          The Stats tab includes a weekly trend chart (9 weeks), a day-of-week radial showing your strongest and weakest days, a 28-day heatmap, per-habit performance bars with completion rates, a category distribution view, and an AI-generated insight. The home screen also shows a momentum score (0–100) and a "Your Rhythm" day-strength chart.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item animate delay-2">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="faq-question-text">
+          <span class="faq-emoji">🏆</span>
+          <span class="faq-q">What badges can I earn?</span>
+        </div>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          There are 14 badges across three categories. Streak badges (First Flame at 3 days through Eternal Flame at 60 days), Completion badges (Getting Started at 10 sparks through Unstoppable at 500), and Special badges (Perfect Week, Comeback Kid, Habit Collector). Each badge shows a progress ring so you can see exactly how close you are.
+        </div>
+      </div>
+    </div>
+
+    <!-- Social & Friends -->
+    <div class="faq-category-label animate delay-3">SOCIAL & FRIENDS</div>
+
+    <div class="faq-item animate delay-3">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="faq-question-text">
+          <span class="faq-emoji">👥</span>
+          <span class="faq-q">How does the leaderboard work?</span>
+        </div>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Connect with friends and you'll see a ranked leaderboard based on total habit completions. The top 3 get a podium display with medals. You can see everyone's streak, today's sparks, and earned badges. Tap any friend to expand their card and send a Challenge or Celebration.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item animate delay-3">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="faq-question-text">
+          <span class="faq-emoji">🔒</span>
+          <span class="faq-q">Is the social feature optional?</span>
+        </div>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Absolutely. Social features can be turned on or off in Settings. When disabled, the Leaderboard tab is hidden from the navigation bar entirely. HabitSpark works perfectly as a solo experience — the social layer is there if you want it, but never forced.
+        </div>
+      </div>
+    </div>
+
+    <!-- Privacy & Data -->
+    <div class="faq-category-label animate delay-3">PRIVACY & DATA</div>
+
+    <div class="faq-item animate delay-3">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="faq-question-text">
+          <span class="faq-emoji">🛡️</span>
+          <span class="faq-q">Is my data private?</span>
+        </div>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Yes. Your habit data is stored securely in Firebase with authentication. The AI Coach only receives a compact statistical summary of your patterns (completion rates, streak lengths, day-of-week trends) — never your raw personal data. Analytics are calculated locally on your device first, keeping things fast and private.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item animate delay-3">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="faq-question-text">
+          <span class="faq-emoji">💾</span>
+          <span class="faq-q">What happens if I lose my phone?</span>
+        </div>
+        <div class="faq-toggle">+</div>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Your data is synced to the cloud via Firebase. Sign in on a new device with the same account and all your habits, streaks, completion history, and badges will be right where you left them.
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Still Have Questions -->
+  <section class="contact-section animate">
+    <div class="contact-card">
+      <div style="font-size: 32px; margin-bottom: 12px;">💌</div>
+      <h3>Still Have Questions?</h3>
+      <p>We'd love to hear from you. Drop us a message and we'll get back to you as soon as possible.</p>
+      <a href="mailto:support@habitspark.ai" class="contact-btn">✉️ support@habitspark.ai</a>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section animate">
+    <h2>Ready to Get Started?</h2>
+    <p>Download HabitSpark AI and start tracking for free. Upgrade to Spark Pro when you're ready for AI-powered coaching.</p>
+    <div class="cta-buttons">
+      <a href="https://apps.apple.com" class="cta-btn primary">Download for iOS</a>
+      <a href="https://play.google.com" class="cta-btn secondary">Download for Android</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <a href="/privacy-policy">Privacy Policy</a>
+    <a href="/terms-of-service">Terms & Conditions</a>
+    <span> | © <span id="year"></span> HabitSpark AI</span>
+    <span> | Updated: <span class="last-updated"></span></span>
+  </footer>
+
+  <script>
+    const now = new Date();
+    document.getElementById('year').textContent = now.getFullYear();
+    document.querySelectorAll('.last-updated').forEach((el) => {
+      el.textContent = now.toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+      });
+    });
+
+    function toggleFaq(el) {
+      const item = el.closest('.faq-item');
+      const wasOpen = item.classList.contains('open');
+
+      // Close all others
+      document.querySelectorAll('.faq-item.open').forEach(i => {
+        if (i !== item) i.classList.remove('open');
+      });
+
+      // Toggle this one
+      if (wasOpen) {
+        item.classList.remove('open');
+      } else {
+        item.classList.add('open');
+      }
+    }
+  </script>
+
+</body>
+</html>

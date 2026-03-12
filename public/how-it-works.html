@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How it Works — HabitSpark AI</title>
+  <meta name="description" content="Learn how HabitSpark AI helps you build lasting habits in 4 simple steps — from onboarding to AI-powered growth.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-deep: #0D0B14;
+      --bg-card: rgba(255,255,255,0.03);
+      --border: rgba(255,255,255,0.06);
+      --purple: #B388FF;
+      --purple-dim: rgba(179,136,255,0.15);
+      --text-primary: rgba(255,255,255,0.9);
+      --text-secondary: rgba(255,255,255,0.6);
+      --text-muted: rgba(255,255,255,0.35);
+      --green: #81C784;
+      --amber: #FFD54F;
+      --red: #EF5350;
+      --blue: #64B5F6;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(180deg, #13111C 0%, var(--bg-deep) 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Nav ── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 40px; max-width: 1200px; margin: 0 auto;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700;
+      color: var(--text-primary); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      font-size: 14px; color: var(--text-secondary); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--purple); }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center; padding: 60px 24px 40px; max-width: 700px; margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-block; padding: 6px 16px; border-radius: 20px;
+      background: var(--purple-dim); border: 1px solid rgba(179,136,255,0.2);
+      font-size: 12px; font-weight: 600; color: var(--purple);
+      margin-bottom: 24px; letter-spacing: 0.5px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700; line-height: 1.2; margin-bottom: 16px;
+    }
+    .hero h1 span { color: var(--purple); }
+    .hero p {
+      font-size: 16px; color: var(--text-secondary); line-height: 1.7;
+      max-width: 520px; margin: 0 auto;
+    }
+
+    /* ── Steps Section ── */
+    .steps-section {
+      max-width: 800px; margin: 0 auto; padding: 20px 24px 60px;
+      position: relative;
+    }
+
+    /* Vertical line connecting steps */
+    .steps-section::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 60px;
+      bottom: 120px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--purple), rgba(179,136,255,0.1));
+      transform: translateX(-50%);
+      z-index: 0;
+    }
+
+    .step {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+      margin-bottom: 60px;
+      position: relative;
+      z-index: 1;
+    }
+    .step.reverse { flex-direction: row-reverse; }
+
+    .step-number-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 80px;
+    }
+    .step-number {
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 700;
+      position: relative;
+    }
+    .step-emoji {
+      position: absolute; bottom: -4px; right: -4px;
+      font-size: 18px;
+    }
+
+    .step-content {
+      flex: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 24px;
+      transition: all 0.3s ease;
+    }
+    .step-content:hover {
+      border-color: rgba(179,136,255,0.15);
+      transform: translateY(-2px);
+    }
+    .step-content h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 18px; font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .step-content p {
+      font-size: 13px; color: var(--text-secondary); line-height: 1.8;
+      margin-bottom: 12px;
+    }
+    .step-detail {
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .step-chip {
+      padding: 5px 12px; border-radius: 10px;
+      font-size: 11px; font-weight: 500;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text-secondary);
+    }
+
+    /* ── Timeline Summary ── */
+    .timeline-summary {
+      max-width: 800px; margin: 0 auto; padding: 0 24px 60px;
+    }
+    .timeline-bar {
+      display: flex; gap: 0;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .timeline-segment {
+      flex: 1; padding: 20px 16px; text-align: center;
+      border-right: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+    .timeline-segment:last-child { border-right: none; }
+    .timeline-segment:hover {
+      background: rgba(179,136,255,0.04);
+    }
+    .timeline-segment .time {
+      font-size: 11px; font-weight: 600; color: var(--purple);
+      margin-bottom: 4px;
+    }
+    .timeline-segment .label {
+      font-size: 10px; color: var(--text-muted);
+    }
+    .timeline-segment .emoji {
+      font-size: 22px; margin-bottom: 8px;
+    }
+
+    /* ── Comparison Section ── */
+    .comparison-section {
+      max-width: 800px; margin: 0 auto; padding: 0 24px 60px;
+    }
+    .section-label {
+      font-size: 11px; font-weight: 600; color: var(--text-muted);
+      letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 24px;
+    }
+    .comparison-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    .comparison-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px 20px;
+    }
+    .comparison-card h4 {
+      font-size: 14px; font-weight: 700; margin-bottom: 12px;
+    }
+    .comparison-card.old h4 { color: var(--text-muted); }
+    .comparison-card.new h4 { color: var(--purple); }
+    .comparison-item {
+      font-size: 12px; color: var(--text-secondary);
+      padding: 5px 0; display: flex; align-items: center; gap: 8px;
+    }
+    .comparison-card.old .comparison-item::before { content: '✕'; color: var(--red); font-size: 10px; }
+    .comparison-card.new .comparison-item::before { content: '✓'; color: var(--green); font-size: 10px; }
+
+    /* ── CTA Section ── */
+    .cta-section {
+      text-align: center; padding: 40px 24px 80px; max-width: 600px; margin: 0 auto;
+    }
+    .cta-section h2 {
+      font-family: 'Playfair Display', serif; font-size: 32px;
+      font-weight: 700; margin-bottom: 12px;
+    }
+    .cta-section p {
+      font-size: 14px; color: var(--text-secondary); margin-bottom: 28px;
+    }
+    .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .cta-btn {
+      padding: 12px 28px; border-radius: 14px; font-size: 14px; font-weight: 600;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .cta-btn.primary {
+      background: var(--purple); color: #13111C;
+    }
+    .cta-btn.primary:hover { filter: brightness(1.15); transform: translateY(-1px); }
+    .cta-btn.secondary {
+      background: var(--purple-dim); color: var(--purple);
+      border: 1px solid rgba(179,136,255,0.2);
+    }
+    .cta-btn.secondary:hover { background: rgba(179,136,255,0.2); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center; padding: 24px; font-size: 12px; color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+    footer a {
+      color: var(--text-secondary); text-decoration: none; margin: 0 8px;
+      transition: color 0.2s;
+    }
+    footer a:hover { color: var(--purple); }
+
+    /* ── Animations ── */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate { animation: fade-up 0.6s ease both; }
+    .delay-1 { animation-delay: 0.15s; }
+    .delay-2 { animation-delay: 0.3s; }
+    .delay-3 { animation-delay: 0.45s; }
+    .delay-4 { animation-delay: 0.6s; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { gap: 20px; }
+      .step, .step.reverse { flex-direction: column; align-items: center; text-align: center; }
+      .step-number-col { flex-direction: row; gap: 12px; margin-bottom: 8px; }
+      .steps-section::before { display: none; }
+      .comparison-grid { grid-template-columns: 1fr; }
+      .step-detail { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="/" class="nav-logo">✨ HabitSpark AI</a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/features">Features</a>
+      <a href="/how-it-works" class="active">How it Works</a>
+      <a href="/pricing">Pricing</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero animate">
+    <div class="hero-badge">🚀 HOW IT WORKS</div>
+    <h1>From Download to<br><span>Lasting Change</span></h1>
+    <p>HabitSpark AI guides you from your first habit to a fully personalised coaching experience — in four simple steps.</p>
+  </div>
+
+  <!-- Steps -->
+  <section class="steps-section">
+
+    <div class="step animate delay-1">
+      <div class="step-number-col">
+        <div class="step-number" style="background: rgba(179,136,255,0.12); color: var(--purple); border: 2px solid rgba(179,136,255,0.25);">
+          1
+          <span class="step-emoji">✨</span>
+        </div>
+      </div>
+      <div class="step-content">
+        <h3>Pick Your Sparks</h3>
+        <p>Tell us what matters to you. Choose up to 3 categories during onboarding — Fitness, Healthy Eating, Mental Wellness, and more. We'll create your starter habits automatically.</p>
+        <div class="step-detail">
+          <span class="step-chip">12 categories</span>
+          <span class="step-chip">Choose your tone</span>
+          <span class="step-chip">Set reminders</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step reverse animate delay-2">
+      <div class="step-number-col">
+        <div class="step-number" style="background: rgba(129,199,132,0.12); color: var(--green); border: 2px solid rgba(129,199,132,0.25);">
+          2
+          <span class="step-emoji">🔥</span>
+        </div>
+      </div>
+      <div class="step-content">
+        <h3>Spark Daily</h3>
+        <p>Each day, tap to complete your habits. One tap = one spark. Watch your streaks grow, earn badges, and see your weekly tracker fill up. The completion animation makes every spark feel rewarding.</p>
+        <div class="step-detail">
+          <span class="step-chip">One-tap completion</span>
+          <span class="step-chip">Streak tracking</span>
+          <span class="step-chip">Weekly dots</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step animate delay-3">
+      <div class="step-number-col">
+        <div class="step-number" style="background: rgba(255,213,79,0.12); color: var(--amber); border: 2px solid rgba(255,213,79,0.25);">
+          3
+          <span class="step-emoji">🤖</span>
+        </div>
+      </div>
+      <div class="step-content">
+        <h3>Get AI Coaching</h3>
+        <p>As you build data, the AI Coach gets smarter. It analyses your day-of-week patterns, identifies at-risk habits, celebrates personal bests, and recommends new habits that complement your routine.</p>
+        <div class="step-detail">
+          <span class="step-chip">Pattern detection</span>
+          <span class="step-chip">Adaptive tone</span>
+          <span class="step-chip">GPT-4o powered</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step reverse animate delay-4">
+      <div class="step-number-col">
+        <div class="step-number" style="background: rgba(100,181,246,0.12); color: var(--blue); border: 2px solid rgba(100,181,246,0.25);">
+          4
+          <span class="step-emoji">📈</span>
+        </div>
+      </div>
+      <div class="step-content">
+        <h3>Watch Yourself Grow</h3>
+        <p>The Stats tab paints a complete picture — weekly trends, momentum score, day-of-week radial, and a 28-day heatmap. Unlock badges, climb the leaderboard, and see how far you've come on your profile's journey timeline.</p>
+        <div class="step-detail">
+          <span class="step-chip">14 badges</span>
+          <span class="step-chip">Friend leaderboard</span>
+          <span class="step-chip">Journey milestones</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Timeline Summary -->
+  <section class="timeline-summary animate">
+    <div class="section-label">YOUR JOURNEY</div>
+    <div class="timeline-bar">
+      <div class="timeline-segment">
+        <div class="emoji">🌱</div>
+        <div class="time">Day 1</div>
+        <div class="label">First Spark</div>
+      </div>
+      <div class="timeline-segment">
+        <div class="emoji">🔥</div>
+        <div class="time">Week 1</div>
+        <div class="label">Patterns Emerge</div>
+      </div>
+      <div class="timeline-segment">
+        <div class="emoji">💎</div>
+        <div class="time">Month 1</div>
+        <div class="label">Habits Stick</div>
+      </div>
+      <div class="timeline-segment">
+        <div class="emoji">👑</div>
+        <div class="time">Month 3+</div>
+        <div class="label">Lasting Change</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section class="comparison-section animate">
+    <div class="section-label">WHY HABITSPARK</div>
+    <div class="comparison-grid">
+      <div class="comparison-card old">
+        <h4>Other Habit Apps</h4>
+        <div class="comparison-item">Generic motivational quotes</div>
+        <div class="comparison-item">Basic streak counters</div>
+        <div class="comparison-item">No pattern analysis</div>
+        <div class="comparison-item">Same suggestions for everyone</div>
+        <div class="comparison-item">Stats are just numbers</div>
+      </div>
+      <div class="comparison-card new">
+        <h4>HabitSpark AI</h4>
+        <div class="comparison-item">AI coaching referencing your data</div>
+        <div class="comparison-item">Momentum score + day-of-week charts</div>
+        <div class="comparison-item">Detects your weakest days automatically</div>
+        <div class="comparison-item">Suggests habits based on your gaps</div>
+        <div class="comparison-item">Visual stories that drive action</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section animate">
+    <h2>Start Your First Spark Today</h2>
+    <p>It takes 30 seconds to set up. Track habits for free — upgrade to Spark Pro anytime for personalised AI coaching.</p>
+    <div class="cta-buttons">
+      <a href="https://apps.apple.com" class="cta-btn primary">Download for iOS</a>
+      <a href="https://play.google.com" class="cta-btn secondary">Download for Android</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <a href="/privacy-policy">Privacy Policy</a>
+    <a href="/terms-of-service">Terms & Conditions</a>
+    <span> | © <span id="year"></span> HabitSpark AI</span>
+    <span> | Updated: <span class="last-updated"></span></span>
+  </footer>
+
+  <script>
+    const now = new Date();
+    document.getElementById('year').textContent = now.getFullYear();
+    document.querySelectorAll('.last-updated').forEach((el) => {
+      el.textContent = now.toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+      });
+    });
+  </script>
+
+</body>
+</html>

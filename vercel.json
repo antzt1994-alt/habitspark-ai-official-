@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "server.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/", "dest": "/server.js" },
+    { "src": "/features", "dest": "/server.js" },
+    { "src": "/how-it-works", "dest": "/server.js" },
+    { "src": "/pricing", "dest": "/server.js" },
+    { "src": "/faq", "dest": "/server.js" },
+    { "src": "/privacy-policy", "dest": "/server.js" },
+    { "src": "/terms-of-service", "dest": "/server.js" },
+    { "src": "/term-of-service", "dest": "/server.js" },
+    { "src": "/(.*)", "dest": "/server.js" }
+  ]
+}

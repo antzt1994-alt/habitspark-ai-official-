@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing — HabitSpark AI</title>
+  <meta name="description" content="Simple and transparent HabitSpark AI pricing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-deep: #0D0B14;
+      --bg-card: rgba(255,255,255,0.03);
+      --bg-card-hover: rgba(255,255,255,0.05);
+      --border: rgba(255,255,255,0.06);
+      --purple: #B388FF;
+      --purple-dim: rgba(179,136,255,0.15);
+      --text-primary: rgba(255,255,255,0.9);
+      --text-secondary: rgba(255,255,255,0.6);
+      --text-muted: rgba(255,255,255,0.35);
+      --green: #81C784;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(180deg, #13111C 0%, var(--bg-deep) 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 40px; max-width: 1200px; margin: 0 auto;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700;
+      color: var(--text-primary); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      font-size: 14px; color: var(--text-secondary); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--purple); }
+
+    .hero {
+      text-align: center; padding: 60px 24px 36px; max-width: 700px; margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-block; padding: 6px 16px; border-radius: 20px;
+      background: var(--purple-dim); border: 1px solid rgba(179,136,255,0.2);
+      font-size: 12px; font-weight: 600; color: var(--purple);
+      margin-bottom: 24px; letter-spacing: 0.5px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700; line-height: 1.2; margin-bottom: 14px;
+    }
+    .hero h1 span { color: var(--purple); }
+    .hero p { font-size: 15px; color: var(--text-secondary); line-height: 1.8; }
+
+    .pricing-grid {
+      max-width: 1100px; margin: 0 auto; padding: 16px 24px 56px;
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;
+    }
+    .plan-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 26px 22px;
+      transition: all 0.3s ease;
+    }
+    .plan-card:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(179,136,255,0.15);
+      transform: translateY(-2px);
+    }
+    .plan-card.featured {
+      border-color: rgba(179,136,255,0.35);
+      box-shadow: 0 0 0 1px rgba(179,136,255,0.2) inset;
+    }
+    .plan-name {
+      font-family: 'Playfair Display', serif; font-size: 26px; margin-bottom: 8px;
+    }
+    .plan-price {
+      font-size: 34px; font-weight: 700; margin-bottom: 14px;
+    }
+    .plan-price span {
+      font-size: 14px; color: var(--text-muted); font-weight: 500;
+    }
+    .plan-desc {
+      font-size: 13px; color: var(--text-secondary); line-height: 1.7;
+      margin-bottom: 14px;
+    }
+    .plan-list { list-style: none; }
+    .plan-list li {
+      font-size: 12px; color: var(--text-secondary); line-height: 1.8;
+      display: flex; gap: 8px;
+    }
+    .plan-list li::before { content: '•'; color: var(--green); }
+
+    .cta-section {
+      text-align: center; padding: 8px 24px 64px; max-width: 700px; margin: 0 auto;
+    }
+    .cta-note {
+      font-size: 13px; color: var(--text-muted); line-height: 1.7;
+    }
+
+    footer {
+      text-align: center; padding: 24px; font-size: 12px; color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+    footer a {
+      color: var(--text-secondary); text-decoration: none; margin: 0 8px;
+      transition: color 0.2s;
+    }
+    footer a:hover { color: var(--purple); }
+
+    @media (max-width: 980px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { gap: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">HabitSpark AI</a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/features">Features</a>
+      <a href="/how-it-works">How it Works</a>
+      <a href="/pricing" class="active">Pricing</a>
+      <a href="/faq">FAQ</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-badge">PRICING</div>
+    <h1>Simple plans for <span>steady growth</span></h1>
+    <p>Start free, build your routine, and upgrade when you want deeper AI coaching and advanced personalization.</p>
+  </section>
+
+  <section class="pricing-grid">
+    <article class="plan-card">
+      <h2 class="plan-name">Spark</h2>
+      <div class="plan-price">Free</div>
+      <p class="plan-desc">Everything you need to start and maintain daily momentum.</p>
+      <ul class="plan-list">
+        <li>Unlimited habit tracking</li>
+        <li>Streaks and progress dashboard</li>
+        <li>Leaderboard and badges</li>
+        <li>Local AI insights</li>
+      </ul>
+    </article>
+
+    <article class="plan-card featured">
+      <h2 class="plan-name">Spark Pro</h2>
+      <div class="plan-price">£3.99 <span>/ month</span></div>
+      <p class="plan-desc">Personalized AI coaching built from your habit data and trends.</p>
+      <ul class="plan-list">
+        <li>Everything in Spark</li>
+        <li>GPT-powered coaching responses</li>
+        <li>Per-habit suggestions and tuning</li>
+        <li>Adaptive coaching tone</li>
+      </ul>
+    </article>
+
+    <article class="plan-card">
+      <h2 class="plan-name">Pro Annual</h2>
+      <div class="plan-price">£29.99 <span>/ year</span></div>
+      <p class="plan-desc">Best value for long-term consistency and full AI support.</p>
+      <ul class="plan-list">
+        <li>All Spark Pro features</li>
+        <li>Lower annual cost</li>
+        <li>Priority feature access</li>
+        <li>Cancel anytime</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="cta-section">
+    <p class="cta-note">Pricing and availability may vary by region and app store billing rules.</p>
+  </section>
+
+  <footer>
+    <a href="/privacy-policy">Privacy Policy</a>
+    <a href="/terms-of-service">Terms & Conditions</a>
+    <span> | © <span id="year"></span> HabitSpark AI</span>
+    <span> | Updated: <span class="last-updated"></span></span>
+  </footer>
+
+  <script>
+    const now = new Date();
+    document.getElementById('year').textContent = now.getFullYear();
+    document.querySelectorAll('.last-updated').forEach((el) => {
+      el.textContent = now.toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+      });
+    });
+  </script>
+</body>
+</html>
