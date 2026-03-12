@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pricing — HabitSpark AI</title>
-  <meta name="description" content="Simple and transparent HabitSpark AI pricing.">
+  <meta name="description" content="HabitSpark AI pricing — free habit tracking for everyone, Spark Pro for AI-powered coaching. From £3.99/month.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -21,6 +21,9 @@
       --text-secondary: rgba(255,255,255,0.6);
       --text-muted: rgba(255,255,255,0.35);
       --green: #81C784;
+      --amber: #FFD54F;
+      --red: #EF5350;
+      --blue: #64B5F6;
     }
 
     body {
@@ -31,13 +34,14 @@
       overflow-x: hidden;
     }
 
+    /* ── Nav ── */
     nav {
       display: flex; align-items: center; justify-content: space-between;
       padding: 20px 40px; max-width: 1200px; margin: 0 auto;
     }
     .nav-logo {
       font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700;
-      color: var(--text-primary); text-decoration: none;
+      color: inherit; text-decoration: none;
     }
     .nav-links { display: flex; gap: 32px; }
     .nav-links a {
@@ -46,8 +50,9 @@
     }
     .nav-links a:hover, .nav-links a.active { color: var(--purple); }
 
+    /* ── Hero ── */
     .hero {
-      text-align: center; padding: 60px 24px 36px; max-width: 700px; margin: 0 auto;
+      text-align: center; padding: 60px 24px 40px; max-width: 700px; margin: 0 auto;
     }
     .hero-badge {
       display: inline-block; padding: 6px 16px; border-radius: 20px;
@@ -57,56 +62,220 @@
     }
     .hero h1 {
       font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 48px);
-      font-weight: 700; line-height: 1.2; margin-bottom: 14px;
+      font-weight: 700; line-height: 1.2; margin-bottom: 16px;
     }
     .hero h1 span { color: var(--purple); }
-    .hero p { font-size: 15px; color: var(--text-secondary); line-height: 1.8; }
-
-    .pricing-grid {
-      max-width: 1100px; margin: 0 auto; padding: 16px 24px 56px;
-      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;
+    .hero p {
+      font-size: 16px; color: var(--text-secondary); line-height: 1.7;
+      max-width: 540px; margin: 0 auto;
     }
-    .plan-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 20px; padding: 26px 22px;
+
+    /* ── Toggle ── */
+    .toggle-section {
+      text-align: center; margin-bottom: 40px;
+    }
+    .toggle-container {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px; padding: 4px;
+    }
+    .toggle-option {
+      padding: 8px 20px; border-radius: 10px;
+      font-size: 13px; font-weight: 500; cursor: pointer;
+      color: var(--text-muted); transition: all 0.25s ease;
+      user-select: none; position: relative;
+    }
+    .toggle-option.active {
+      background: var(--purple); color: #13111C; font-weight: 600;
+    }
+    .toggle-save {
+      position: absolute; top: -8px; right: -6px;
+      background: var(--green); color: #13111C;
+      font-size: 8px; font-weight: 700; padding: 2px 5px;
+      border-radius: 6px; letter-spacing: 0.3px;
+    }
+
+    /* ── Pricing Cards ── */
+    .pricing-section {
+      max-width: 840px; margin: 0 auto; padding: 0 24px 40px;
+    }
+    .pricing-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px 24px;
+      position: relative; overflow: hidden;
       transition: all 0.3s ease;
     }
-    .plan-card:hover {
-      background: var(--bg-card-hover);
-      border-color: rgba(179,136,255,0.15);
-      transform: translateY(-2px);
+    .pricing-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,0.1);
     }
-    .plan-card.featured {
-      border-color: rgba(179,136,255,0.35);
-      box-shadow: 0 0 0 1px rgba(179,136,255,0.2) inset;
+    .pricing-card.featured {
+      background: linear-gradient(145deg, rgba(179,136,255,0.08), rgba(179,136,255,0.02));
+      border-color: rgba(179,136,255,0.25);
     }
+    .pricing-card.featured:hover {
+      border-color: rgba(179,136,255,0.4);
+    }
+    .pricing-card.featured::before {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 160px; height: 160px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(179,136,255,0.06), transparent 70%);
+      transform: translate(30%, -30%);
+    }
+
+    .plan-badge {
+      display: inline-block; padding: 4px 12px; border-radius: 8px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.8px;
+      margin-bottom: 16px;
+    }
+    .plan-badge.free { background: rgba(129,199,132,0.12); color: var(--green); }
+    .plan-badge.pro { background: var(--purple-dim); color: var(--purple); }
+
     .plan-name {
-      font-family: 'Playfair Display', serif; font-size: 26px; margin-bottom: 8px;
-    }
-    .plan-price {
-      font-size: 34px; font-weight: 700; margin-bottom: 14px;
-    }
-    .plan-price span {
-      font-size: 14px; color: var(--text-muted); font-weight: 500;
+      font-family: 'Playfair Display', serif;
+      font-size: 24px; font-weight: 700; margin-bottom: 4px;
     }
     .plan-desc {
-      font-size: 13px; color: var(--text-secondary); line-height: 1.7;
-      margin-bottom: 14px;
+      font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5;
     }
-    .plan-list { list-style: none; }
-    .plan-list li {
-      font-size: 12px; color: var(--text-secondary); line-height: 1.8;
-      display: flex; gap: 8px;
-    }
-    .plan-list li::before { content: '•'; color: var(--green); }
 
+    .plan-price {
+      margin-bottom: 24px;
+    }
+    .price-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 40px; font-weight: 700;
+    }
+    .price-period {
+      font-size: 13px; color: var(--text-muted);
+    }
+    .price-yearly {
+      font-size: 12px; color: var(--text-muted); margin-top: 4px;
+    }
+
+    .plan-cta {
+      display: block; width: 100%; padding: 12px 0; border-radius: 14px;
+      font-size: 14px; font-weight: 600; text-align: center;
+      text-decoration: none; transition: all 0.2s;
+      margin-bottom: 24px;
+    }
+    .plan-cta.free-cta {
+      background: rgba(129,199,132,0.12);
+      color: var(--green);
+      border: 1px solid rgba(129,199,132,0.2);
+    }
+    .plan-cta.free-cta:hover { background: rgba(129,199,132,0.2); }
+    .plan-cta.pro-cta {
+      background: var(--purple); color: #13111C;
+    }
+    .plan-cta.pro-cta:hover { filter: brightness(1.15); transform: translateY(-1px); }
+
+    .features-divider {
+      height: 1px; background: var(--border); margin-bottom: 20px;
+    }
+    .features-title {
+      font-size: 10px; font-weight: 600; color: var(--text-muted);
+      letter-spacing: 1px; margin-bottom: 14px;
+    }
+
+    .feature-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 7px 0; font-size: 13px;
+    }
+    .feature-check {
+      width: 18px; height: 18px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px; flex-shrink: 0;
+    }
+    .feature-check.yes { background: rgba(129,199,132,0.12); color: var(--green); }
+    .feature-check.pro-yes { background: var(--purple-dim); color: var(--purple); }
+    .feature-check.no { background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.15); }
+    .feature-text { color: var(--text-secondary); }
+    .feature-text.disabled { color: var(--text-muted); }
+
+    /* ── Comparison Table ── */
+    .comparison-section {
+      max-width: 840px; margin: 0 auto; padding: 40px 24px 40px;
+    }
+    .section-label {
+      font-size: 11px; font-weight: 600; color: var(--text-muted);
+      letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 20px;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .comparison-table th {
+      font-size: 12px; font-weight: 600; padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .comparison-table th:first-child { color: var(--text-muted); }
+    .comparison-table th:nth-child(2) { color: var(--green); text-align: center; }
+    .comparison-table th:nth-child(3) { color: var(--purple); text-align: center; }
+    .comparison-table td {
+      font-size: 13px; color: var(--text-secondary);
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.02);
+    }
+    .comparison-table td:nth-child(2),
+    .comparison-table td:nth-child(3) { text-align: center; font-size: 14px; }
+    .comparison-table tr:last-child td { border-bottom: none; }
+
+    /* ── FAQ Teaser ── */
+    .faq-teaser {
+      max-width: 600px; margin: 0 auto; padding: 20px 24px 40px;
+      text-align: center;
+    }
+    .faq-teaser p {
+      font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;
+    }
+    .faq-link {
+      display: inline-block; padding: 10px 24px; border-radius: 12px;
+      font-size: 13px; font-weight: 600; text-decoration: none;
+      background: var(--purple-dim); color: var(--purple);
+      border: 1px solid rgba(179,136,255,0.2);
+      transition: all 0.2s;
+    }
+    .faq-link:hover { background: rgba(179,136,255,0.2); }
+
+    /* ── CTA ── */
     .cta-section {
-      text-align: center; padding: 8px 24px 64px; max-width: 700px; margin: 0 auto;
+      text-align: center; padding: 20px 24px 80px; max-width: 600px; margin: 0 auto;
     }
-    .cta-note {
-      font-size: 13px; color: var(--text-muted); line-height: 1.7;
+    .cta-section h2 {
+      font-family: 'Playfair Display', serif; font-size: 32px;
+      font-weight: 700; margin-bottom: 12px;
     }
+    .cta-section p {
+      font-size: 14px; color: var(--text-secondary); margin-bottom: 28px;
+    }
+    .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .cta-btn {
+      padding: 12px 28px; border-radius: 14px; font-size: 14px; font-weight: 600;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .cta-btn.primary { background: var(--purple); color: #13111C; }
+    .cta-btn.primary:hover { filter: brightness(1.15); transform: translateY(-1px); }
+    .cta-btn.secondary {
+      background: var(--purple-dim); color: var(--purple);
+      border: 1px solid rgba(179,136,255,0.2);
+    }
+    .cta-btn.secondary:hover { background: rgba(179,136,255,0.2); }
 
+    /* ── Footer ── */
     footer {
       text-align: center; padding: 24px; font-size: 12px; color: var(--text-muted);
       border-top: 1px solid var(--border);
@@ -117,17 +286,42 @@
     }
     footer a:hover { color: var(--purple); }
 
-    @media (max-width: 980px) {
-      .pricing-grid { grid-template-columns: 1fr; }
+    /* ── Animations ── */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
     }
+    .animate { animation: fade-up 0.6s ease both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+
+    /* ── Responsive ── */
     @media (max-width: 768px) {
-      nav { padding: 16px 20px; }
-      .nav-links { gap: 18px; }
+      nav {
+        padding: 16px 18px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .nav-links {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 14px;
+      }
+      .nav-links a { font-size: 13px; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+    }
+
+    @media (max-width: 420px) {
+      .nav-links { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Nav -->
   <nav>
     <a href="/" class="nav-logo">✨ HabitSpark AI</a>
     <div class="nav-links">
@@ -135,58 +329,136 @@
       <a href="/features">Features</a>
       <a href="/how-it-works">How it Works</a>
       <a href="/pricing" class="active">Pricing</a>
-      <a href="/faq">FAQ</a>
     </div>
   </nav>
 
-  <section class="hero">
-    <div class="hero-badge">PRICING</div>
-    <h1>Simple plans for <span>steady growth</span></h1>
-    <p>Start free, build your routine, and upgrade when you want deeper AI coaching and advanced personalization.</p>
+  <!-- Hero -->
+  <div class="hero animate">
+    <div class="hero-badge">💎 PRICING</div>
+    <h1>Start Free. <span>Go Pro</span> When You're Ready.</h1>
+    <p>Track habits and see your patterns for free. Upgrade to Spark Pro for AI coaching that knows you by name.</p>
+  </div>
+
+  <!-- Billing Toggle -->
+  <div class="toggle-section animate delay-1">
+    <div class="toggle-container">
+      <div class="toggle-option active" id="toggle-monthly" onclick="setBilling('monthly')">Monthly</div>
+      <div class="toggle-option" id="toggle-yearly" onclick="setBilling('yearly')" style="position: relative;">
+        Yearly
+        <span class="toggle-save" id="save-badge" style="display: none;">SAVE 37%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pricing Cards -->
+  <section class="pricing-section">
+    <div class="pricing-grid">
+
+      <!-- Free Tier -->
+      <div class="pricing-card animate delay-1">
+        <span class="plan-badge free">FREE FOREVER</span>
+        <div class="plan-name">Spark</div>
+        <div class="plan-desc">Everything you need to build better habits.</div>
+
+        <div class="plan-price">
+          <span class="price-amount" style="color: var(--green);">£0</span>
+          <span class="price-period"> / forever</span>
+        </div>
+
+        <a href="https://play.google.com" class="plan-cta free-cta">Get Started Free</a>
+
+        <div class="features-divider"></div>
+        <div class="features-title">WHAT'S INCLUDED</div>
+
+        <div class="feature-row"><div class="feature-check yes">✓</div><span class="feature-text">Unlimited habit tracking</span></div>
+        <div class="feature-row"><div class="feature-check yes">✓</div><span class="feature-text">Streaks & completion history</span></div>
+        <div class="feature-row"><div class="feature-check yes">✓</div><span class="feature-text">Full Stats dashboard & charts</span></div>
+        <div class="feature-row"><div class="feature-check yes">✓</div><span class="feature-text">Momentum score & rhythm chart</span></div>
+        <div class="feature-row"><div class="feature-check yes">✓</div><span class="feature-text">All 14 achievement badges</span></div>
+        <div class="feature-row"><div class="feature-check yes">✓</div><span class="feature-text">Social leaderboard</span></div>
+        <div class="feature-row"><div class="feature-check yes">✓</div><span class="feature-text">Local AI insights (on-device)</span></div>
+        <div class="feature-row"><div class="feature-check yes">✓</div><span class="feature-text">Dark & light mode</span></div>
+        <div class="feature-row"><div class="feature-check no">—</div><span class="feature-text disabled">GPT-powered AI coaching</span></div>
+        <div class="feature-row"><div class="feature-check no">—</div><span class="feature-text disabled">Per-habit coaching tips</span></div>
+        <div class="feature-row"><div class="feature-check no">—</div><span class="feature-text disabled">AI habit suggestions</span></div>
+        <div class="feature-row"><div class="feature-check no">—</div><span class="feature-text disabled">Adaptive tone messaging</span></div>
+      </div>
+
+      <!-- Pro Tier -->
+      <div class="pricing-card featured animate delay-2">
+        <span class="plan-badge pro">MOST POPULAR</span>
+        <div class="plan-name" style="color: var(--purple);">Spark Pro</div>
+        <div class="plan-desc">AI coaching that actually knows your patterns.</div>
+
+        <div class="plan-price">
+          <span class="price-amount" id="pro-price" style="color: var(--purple);">£3.99</span>
+          <span class="price-period" id="pro-period"> / month</span>
+          <div class="price-yearly" id="pro-yearly" style="display: none;">Billed annually at £29.99</div>
+        </div>
+
+        <a href="https://play.google.com" class="plan-cta pro-cta">Start Spark Pro</a>
+
+        <div class="features-divider"></div>
+        <div class="features-title">EVERYTHING IN SPARK, PLUS</div>
+
+        <div class="feature-row"><div class="feature-check pro-yes">✓</div><span class="feature-text">GPT-4o powered AI coaching</span></div>
+        <div class="feature-row"><div class="feature-check pro-yes">✓</div><span class="feature-text">Personalised insights referencing your data</span></div>
+        <div class="feature-row"><div class="feature-check pro-yes">✓</div><span class="feature-text">Per-habit coaching tips on tap</span></div>
+        <div class="feature-row"><div class="feature-check pro-yes">✓</div><span class="feature-text">AI-generated habit suggestions</span></div>
+        <div class="feature-row"><div class="feature-check pro-yes">✓</div><span class="feature-text">Adaptive gentle / motivational / neutral tone</span></div>
+        <div class="feature-row"><div class="feature-check pro-yes">✓</div><span class="feature-text">At-risk habit alerts from AI</span></div>
+        <div class="feature-row"><div class="feature-check pro-yes">✓</div><span class="feature-text">Weekly pattern analysis</span></div>
+        <div class="feature-row"><div class="feature-check pro-yes">✓</div><span class="feature-text">Priority support</span></div>
+      </div>
+
+    </div>
   </section>
 
-  <section class="pricing-grid">
-    <article class="plan-card">
-      <h2 class="plan-name">Spark</h2>
-      <div class="plan-price">Free</div>
-      <p class="plan-desc">Everything you need to start and maintain daily momentum.</p>
-      <ul class="plan-list">
-        <li>Unlimited habit tracking</li>
-        <li>Streaks and progress dashboard</li>
-        <li>Leaderboard and badges</li>
-        <li>Local AI insights</li>
-      </ul>
-    </article>
-
-    <article class="plan-card featured">
-      <h2 class="plan-name">Spark Pro</h2>
-      <div class="plan-price">£3.99 <span>/ month</span></div>
-      <p class="plan-desc">Personalized AI coaching built from your habit data and trends.</p>
-      <ul class="plan-list">
-        <li>Everything in Spark</li>
-        <li>GPT-powered coaching responses</li>
-        <li>Per-habit suggestions and tuning</li>
-        <li>Adaptive coaching tone</li>
-      </ul>
-    </article>
-
-    <article class="plan-card">
-      <h2 class="plan-name">Pro Annual</h2>
-      <div class="plan-price">£29.99 <span>/ year</span></div>
-      <p class="plan-desc">Best value for long-term consistency and full AI support.</p>
-      <ul class="plan-list">
-        <li>All Spark Pro features</li>
-        <li>Lower annual cost</li>
-        <li>Priority feature access</li>
-        <li>Cancel anytime</li>
-      </ul>
-    </article>
+  <!-- Feature Comparison Table -->
+  <section class="comparison-section animate delay-3">
+    <div class="section-label">FEATURE COMPARISON</div>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Spark</th>
+          <th>Spark Pro</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Habit tracking</td><td>Unlimited</td><td>Unlimited</td></tr>
+        <tr><td>Streaks & history</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Stats dashboard</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Momentum score</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Achievement badges</td><td>All 14</td><td>All 14</td></tr>
+        <tr><td>Social leaderboard</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Local AI insights</td><td>✅</td><td>✅</td></tr>
+        <tr><td>GPT AI coaching</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Per-habit tips</td><td>❌</td><td>✅</td></tr>
+        <tr><td>AI habit suggestions</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Adaptive tone</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Priority support</td><td>❌</td><td>✅</td></tr>
+      </tbody>
+    </table>
   </section>
 
-  <section class="cta-section">
-    <p class="cta-note">Pricing and availability may vary by region and app store billing rules.</p>
+  <!-- FAQ Teaser -->
+  <div class="faq-teaser animate">
+    <p>Have questions about pricing, billing, or what's included?</p>
+    <a href="/faq" class="faq-link">❓ View FAQ</a>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-section animate">
+    <h2>Start Sparking Today</h2>
+    <p>Download free and track your first habit in 30 seconds. Upgrade to Pro anytime to unlock AI coaching.</p>
+    <div class="cta-buttons">
+      <a href="https://apps.apple.com" class="cta-btn primary">Download for iOS</a>
+      <a href="https://play.google.com" class="cta-btn secondary">Download for Android</a>
+    </div>
   </section>
 
+  <!-- Footer -->
   <footer>
     <a href="/privacy-policy">Privacy Policy</a>
     <a href="/terms-of-service">Terms & Conditions</a>
@@ -195,6 +467,31 @@
   </footer>
 
   <script>
+    function setBilling(type) {
+      const monthly = document.getElementById('toggle-monthly');
+      const yearly = document.getElementById('toggle-yearly');
+      const price = document.getElementById('pro-price');
+      const period = document.getElementById('pro-period');
+      const yearlyNote = document.getElementById('pro-yearly');
+      const saveBadge = document.getElementById('save-badge');
+
+      if (type === 'yearly') {
+        monthly.classList.remove('active');
+        yearly.classList.add('active');
+        price.textContent = '£2.49';
+        period.textContent = ' / month';
+        yearlyNote.style.display = 'block';
+        saveBadge.style.display = 'block';
+      } else {
+        yearly.classList.remove('active');
+        monthly.classList.add('active');
+        price.textContent = '£3.99';
+        period.textContent = ' / month';
+        yearlyNote.style.display = 'none';
+        saveBadge.style.display = 'none';
+      }
+    }
+
     const now = new Date();
     document.getElementById('year').textContent = now.getFullYear();
     document.querySelectorAll('.last-updated').forEach((el) => {
@@ -205,5 +502,6 @@
       });
     });
   </script>
+
 </body>
 </html>

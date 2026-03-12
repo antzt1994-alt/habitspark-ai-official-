@@ -41,7 +41,7 @@
     }
     .nav-logo {
       font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700;
-      color: var(--text-primary); text-decoration: none;
+      color: inherit; text-decoration: none;
     }
     .nav-links { display: flex; gap: 32px; }
     .nav-links a {
@@ -232,11 +232,26 @@
 
     /* ── Responsive ── */
     @media (max-width: 768px) {
-      nav { padding: 16px 20px; }
-      .nav-links { gap: 20px; }
+      nav {
+        padding: 16px 18px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .nav-links {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 14px;
+      }
+      .nav-links a { font-size: 13px; }
       .highlight-row, .highlight-row.reverse { flex-direction: column; }
       .phone-mock { width: 180px; height: 340px; }
       .features-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 420px) {
+      .nav-links { grid-template-columns: 1fr; }
     }
   </style>
 </head>
