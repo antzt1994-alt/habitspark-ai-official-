@@ -96,6 +96,22 @@
       border-radius: 6px; letter-spacing: 0.3px;
     }
 
+    .pricing-meta {
+      max-width: 840px;
+      margin: 0 auto 32px;
+      padding: 0 24px;
+      text-align: center;
+    }
+    .currency-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .currency-note strong {
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
     /* ── Pricing Cards ── */
     .pricing-section {
       max-width: 840px; margin: 0 auto; padding: 0 24px 40px;
@@ -350,6 +366,12 @@
     </div>
   </div>
 
+  <div class="pricing-meta animate delay-1">
+    <p class="currency-note" id="currency-note">
+      Prices are shown in <strong>GBP</strong>. Final charges may vary by App Store or Google Play billing country, exchange rates, and taxes.
+    </p>
+  </div>
+
   <!-- Pricing Cards -->
   <section class="pricing-section">
     <div class="pricing-grid">
@@ -361,7 +383,7 @@
         <div class="plan-desc">Everything you need to build better habits.</div>
 
         <div class="plan-price">
-          <span class="price-amount" style="color: var(--green);">£0</span>
+          <span class="price-amount" id="free-price" style="color: var(--green);">£0</span>
           <span class="price-period"> / forever</span>
         </div>
 
@@ -467,30 +489,191 @@
   </footer>
 
   <script>
-    function setBilling(type) {
-      const monthly = document.getElementById('toggle-monthly');
-      const yearly = document.getElementById('toggle-yearly');
+    const basePricing = {
+      monthly: 3.99,
+      yearlyMonthly: 2.49,
+      yearlyTotal: 29.99
+    };
+
+    const currencyRates = {
+      GBP: 1,
+      USD: 1.28,
+      EUR: 1.17,
+      CAD: 1.74,
+      AUD: 1.96,
+      NZD: 2.11,
+      INR: 107.0
+    };
+
+    const currencyLocales = {
+      GBP: 'en-GB',
+      USD: 'en-US',
+      EUR: 'en-IE',
+      CAD: 'en-CA',
+      AUD: 'en-AU',
+      NZD: 'en-NZ',
+      INR: 'en-IN'
+    };
+
+    const euroRegions = new Set([
+      'AT', 'BE', 'CY', 'DE', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'IE', 'IT',
+      'LT', 'LU', 'LV', 'MT', 'NL', 'PT', 'SI', 'SK'
+    ]);
+
+    const regionCurrencyMap = {
+      GB: 'GBP',
+      US: 'USD',
+      CA: 'CAD',
+      AU: 'AUD',
+      NZ: 'NZD',
+      IN: 'INR'
+    };
+
+    const pricingState = {
+      billing: 'monthly',
+      region: null,
+      currency: 'GBP',
+      usedFallback: false
+    };
+
+    function detectRegionFromTimeZone() {
+      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+      const normalizedZone = timeZone.toLowerCase();
+
+      if (normalizedZone === 'europe/london') return 'GB';
+      if (normalizedZone.startsWith('europe/dublin')) return 'IE';
+      if (normalizedZone.startsWith('america/new_york') || normalizedZone.startsWith('america/chicago') || normalizedZone.startsWith('america/denver') || normalizedZone.startsWith('america/los_angeles')) return 'US';
+      if (normalizedZone.startsWith('america/toronto') || normalizedZone.startsWith('america/vancouver')) return 'CA';
+      if (normalizedZone.startsWith('australia/')) return 'AU';
+      if (normalizedZone.startsWith('pacific/auckland')) return 'NZ';
+      if (normalizedZone.startsWith('asia/kolkata') || normalizedZone.startsWith('asia/calcutta')) return 'IN';
+
+      return null;
+    }
+
+    function detectRegion() {
+      const timeZoneRegion = detectRegionFromTimeZone();
+      if (timeZoneRegion) {
+        return timeZoneRegion;
+      }
+
+      const locales = [...(navigator.languages || []), navigator.language, 'en-GB'].filter(Boolean);
+
+      for (const locale of locales) {
+        try {
+          const region = new Intl.Locale(locale).region;
+          if (region) {
+            return region;
+          }
+        } catch {
+          const match = locale.toUpperCase().match(/-([A-Z]{2})$/);
+          if (match) {
+            return match[1];
+          }
+        }
+      }
+
+      return 'GB';
+    }
+
+    function resolveCurrency(region) {
+      if (!region) {
+        return { currency: 'GBP', usedFallback: true };
+      }
+
+      if (euroRegions.has(region)) {
+        return { currency: 'EUR', usedFallback: false };
+      }
+
+      if (regionCurrencyMap[region]) {
+        return { currency: regionCurrencyMap[region], usedFallback: false };
+      }
+
+      return { currency: 'GBP', usedFallback: region !== 'GB' };
+    }
+
+    function localizeAmount(amount, currency) {
+      const rate = currencyRates[currency] || 1;
+      return Math.round(amount * rate * 100) / 100;
+    }
+
+    function formatMoney(amount, currency) {
+      const locale = currencyLocales[currency] || 'en-GB';
+      const showDecimals = amount !== 0;
+
+      return new Intl.NumberFormat(locale, {
+        style: 'currency',
+        currency,
+        minimumFractionDigits: showDecimals ? 2 : 0,
+        maximumFractionDigits: showDecimals ? 2 : 0
+      }).format(amount);
+    }
+
+    function renderCurrencyNote() {
+      const note = document.getElementById('currency-note');
+      const currencyLabel = pricingState.currency;
+
+      if (pricingState.usedFallback) {
+        note.innerHTML = 'Prices are shown in <strong>GBP</strong> for your region. Final charges may vary by App Store or Google Play billing country, exchange rates, and taxes.';
+        return;
+      }
+
+      note.innerHTML = `Prices are shown in <strong>${currencyLabel}</strong> based on your region. Final charges may vary by App Store or Google Play billing country, exchange rates, and taxes.`;
+    }
+
+    function renderPricing() {
+      const billing = pricingState.billing;
+      const currency = pricingState.currency;
+      const freePrice = document.getElementById('free-price');
       const price = document.getElementById('pro-price');
       const period = document.getElementById('pro-period');
       const yearlyNote = document.getElementById('pro-yearly');
+
+      freePrice.textContent = formatMoney(0, currency);
+
+      if (billing === 'yearly') {
+        const yearlyMonthly = localizeAmount(basePricing.yearlyMonthly, currency);
+        const yearlyTotal = localizeAmount(basePricing.yearlyTotal, currency);
+
+        price.textContent = formatMoney(yearlyMonthly, currency);
+        period.textContent = ' / month';
+        yearlyNote.textContent = `Billed annually at ${formatMoney(yearlyTotal, currency)}`;
+        yearlyNote.style.display = 'block';
+      } else {
+        const monthly = localizeAmount(basePricing.monthly, currency);
+
+        price.textContent = formatMoney(monthly, currency);
+        period.textContent = ' / month';
+        yearlyNote.style.display = 'none';
+      }
+
+      renderCurrencyNote();
+    }
+
+    function setBilling(type) {
+      const monthly = document.getElementById('toggle-monthly');
+      const yearly = document.getElementById('toggle-yearly');
       const saveBadge = document.getElementById('save-badge');
 
       if (type === 'yearly') {
         monthly.classList.remove('active');
         yearly.classList.add('active');
-        price.textContent = '£2.49';
-        period.textContent = ' / month';
-        yearlyNote.style.display = 'block';
         saveBadge.style.display = 'block';
       } else {
         yearly.classList.remove('active');
         monthly.classList.add('active');
-        price.textContent = '£3.99';
-        period.textContent = ' / month';
-        yearlyNote.style.display = 'none';
         saveBadge.style.display = 'none';
       }
+
+      pricingState.billing = type;
+      renderPricing();
     }
+
+    pricingState.region = detectRegion();
+    const detectedPricing = resolveCurrency(pricingState.region);
+    pricingState.currency = detectedPricing.currency;
+    pricingState.usedFallback = detectedPricing.usedFallback;
+    renderPricing();
 
     const now = new Date();
     document.getElementById('year').textContent = now.getFullYear();
