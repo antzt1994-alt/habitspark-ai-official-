@@ -260,14 +260,29 @@
 
     /* ── Responsive ── */
     @media (max-width: 900px) {
-      nav { padding: 16px 20px; }
-      .nav-links { gap: 20px; }
+      nav {
+        padding: 16px 18px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .nav-links {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 14px;
+      }
+      .nav-links a { font-size: 13px; }
       .sidebar { display: none; }
       .docs-content { padding: 24px 20px 60px; }
       .docs-layout { flex-direction: column; }
       .pricing-mini { flex-direction: column; }
       .badge-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
       .lang-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 420px) {
+      .nav-links { grid-template-columns: 1fr; }
     }
 
     /* Scrollbar */
