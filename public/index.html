@@ -3,290 +3,509 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HabitSpark AI</title>
-  <meta name="description" content="Build habits that stick with AI coaching, streaks, badges and friends.">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>HabitSpark AI — Build Habits That Actually Stick</title>
+  <meta name="description" content="Beautiful habit tracking with AI coaching, 1,200+ tips in 7 languages, streaks, badges, home screen widgets, and friends that help you stay consistent.">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --purple: #B388FF;
-      --text-primary: rgba(255,255,255,0.9);
+      --purple-dim: rgba(179,136,255,0.15);
+      --green: #4CAF50;
+      --orange: #FF9800;
+      --bg: #13111C;
+      --bg-card: rgba(255,255,255,0.03);
+      --border: rgba(255,255,255,0.06);
+      --text-primary: rgba(255,255,255,0.92);
       --text-secondary: rgba(255,255,255,0.6);
+      --text-faint: rgba(255,255,255,0.35);
     }
 
     body {
       font-family: 'DM Sans', sans-serif;
-      background: linear-gradient(180deg, #13111C 0%, #0D0B14 100%);
+      background: var(--bg);
       color: var(--text-primary);
       min-height: 100vh;
       overflow-x: hidden;
-      position: relative;
     }
 
-    /* Stars (only dark) */
+    /* Stars */
     #stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-    .star { position: absolute; background: #f8f8ff; border-radius: 50%; box-shadow: 0 0 6px #c4b5fd; animation: twinkle-real 4s infinite ease-in-out; }
-    @keyframes twinkle-real { 0%,100% { opacity: 0.35; transform: scale(0.85); } 50% { opacity: 0.95; transform: scale(1.15); } }
+    .star { position: absolute; background: #f8f8ff; border-radius: 50%; box-shadow: 0 0 6px #c4b5fd; animation: twinkle 4s infinite ease-in-out; }
+    @keyframes twinkle { 0%,100% { opacity: 0.3; transform: scale(0.85); } 50% { opacity: 0.9; transform: scale(1.15); } }
 
-    /* Shooting stars */
     .shooting-star { position: fixed; width: 3px; height: 3px; background: #fff; border-radius: 50%; box-shadow: 0 0 12px #fff, 0 0 24px #c4b5fd; z-index: 1; animation: shoot 1.4s linear forwards; pointer-events: none; }
     @keyframes shoot { 0% { transform: translate(0,0) rotate(-35deg); opacity: 1; } 100% { transform: translate(900px,-900px) rotate(-35deg); opacity: 0; } }
 
-    /* Nav - clean like other pages */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+
+    /* Nav */
     nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 40px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 10; }
     .nav-logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: inherit; text-decoration: none; }
     .nav-links { display: flex; gap: 32px; }
     .nav-links a { font-size: 14px; color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover, .nav-links a.active { color: var(--purple); }
 
+    /* Sections */
+    section { padding: 80px 0; }
+    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--purple); text-transform: uppercase; margin-bottom: 12px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 42px); font-weight: 700; line-height: 1.2; margin-bottom: 16px; }
+    .section-subtitle { font-size: 16px; color: var(--text-secondary); max-width: 560px; line-height: 1.6; }
+    .section-center { text-align: center; }
+    .section-center .section-subtitle { margin: 0 auto; }
+
     /* Hero */
-    .hero { text-align: center; padding: 60px 24px 40px; max-width: 700px; margin: 0 auto; position: relative; z-index: 2; }
-    .hero-logo { font-family: 'Playfair Display', serif; font-size: clamp(42px, 8vw, 68px); font-weight: 700; letter-spacing: -2px; position: relative; animation: logoSparkle 4s ease-in-out infinite; }
-    @keyframes logoSparkle { 0%,100% { text-shadow: 0 0 15px #c084fc, 0 0 30px #a855f7; } 50% { text-shadow: 0 0 35px #c084fc, 0 0 60px #a855f7, 0 0 80px #d8b4fe; } }
-
-    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 48px); font-weight: 700; line-height: 1.15; margin: 16px 0 24px; }
-    .hero p { font-size: 16px; color: var(--text-secondary); max-width: 520px; margin: 0 auto 32px; }
-
-    /* Store buttons */
+    .hero { text-align: center; padding: 80px 24px 60px; position: relative; z-index: 2; }
+    .hero-logo { font-family: 'Playfair Display', serif; font-size: clamp(44px, 8vw, 72px); font-weight: 800; letter-spacing: -2px; animation: logoGlow 4s ease-in-out infinite; }
+    @keyframes logoGlow { 0%,100% { text-shadow: 0 0 15px #c084fc, 0 0 30px #a855f7; } 50% { text-shadow: 0 0 40px #c084fc, 0 0 70px #a855f7, 0 0 90px #d8b4fe; } }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(30px, 5vw, 48px); font-weight: 700; line-height: 1.15; margin: 20px 0 24px; }
+    .hero p { font-size: 17px; color: var(--text-secondary); max-width: 540px; margin: 0 auto 36px; line-height: 1.6; }
     .store-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .store-btn { padding: 12px 28px; border-radius: 14px; font-size: 14px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 8px; background: #000; color: white; transition: all 0.2s; }
-    .store-btn:hover { background: #1f2937; transform: translateY(-1px); }
+    .store-btn { padding: 14px 32px; border-radius: 14px; font-size: 15px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 8px; background: #000; color: white; border: 1px solid rgba(255,255,255,0.1); transition: all 0.25s; }
+    .store-btn:hover { background: #1a1a2e; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+    .store-btn.primary { background: var(--purple); color: #13111C; border-color: var(--purple); }
+    .store-btn.primary:hover { background: #c9a0ff; }
 
-    /* Cards */
-    .cards-section { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; position: relative; z-index: 2; }
-    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    /* Stats banner */
+    .stats-banner { display: flex; justify-content: center; gap: 48px; padding: 40px 24px; flex-wrap: wrap; }
+    .stat-item { text-align: center; }
+    .stat-value { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: var(--purple); }
+    .stat-label { font-size: 12px; color: var(--text-faint); margin-top: 4px; letter-spacing: 0.5px; }
 
-    .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 32px 24px; text-align: center; transition: all 0.3s ease; }
-    .card:hover { transform: translateY(-4px); box-shadow: 0 0 30px rgba(179,136,255,0.3); }
+    /* Feature grid */
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
+    .feature-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 28px 24px; transition: all 0.3s; }
+    .feature-card:hover { transform: translateY(-4px); border-color: rgba(179,136,255,0.2); box-shadow: 0 12px 40px rgba(179,136,255,0.08); }
+    .feature-icon { font-size: 32px; margin-bottom: 14px; }
+    .feature-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .feature-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+    .feature-tag { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 6px; margin-top: 10px; }
+    .tag-free { background: rgba(76,175,80,0.12); color: var(--green); }
+    .tag-pro { background: var(--purple-dim); color: var(--purple); }
 
-    .phone-frame {
-      width: 100%;
-      max-width: 220px;
-      height: 430px;
-      margin: 0 auto 20px;
-      background: #000;
-      border-radius: 42px;
-      padding: 12px;
-      border: 8px solid #222;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-      overflow: hidden;
-      position: relative;
-    }
-    .phone-frame img {
-      width: 100%;
-      height: 100%;
-      border-radius: 30px;
-      object-fit: cover;
-      display: block;
-    }
-    .img-fallback {
-      position: absolute;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 12px;
-      color: rgba(255,255,255,0.75);
-      font-size: 12px;
-      line-height: 1.4;
-      background: linear-gradient(180deg, #131722 0%, #0d111a 100%);
-      border-radius: 30px;
-    }
+    /* How it works */
+    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 40px; }
+    .step-card { text-align: center; padding: 24px 16px; position: relative; }
+    .step-number { width: 40px; height: 40px; border-radius: 50%; background: var(--purple-dim); border: 2px solid var(--purple); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; color: var(--purple); margin: 0 auto 16px; }
+    .step-emoji { font-size: 36px; margin-bottom: 12px; }
+    .step-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .step-card p { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
 
-    footer {
-      text-align: center;
-      padding: 24px 20px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.35);
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-    footer a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      margin: 0 8px;
-      transition: color 0.2s;
-    }
+    /* What's new */
+    .new-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 40px; }
+    .new-item { display: flex; gap: 14px; padding: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; transition: all 0.2s; }
+    .new-item:hover { border-color: rgba(179,136,255,0.15); }
+    .new-emoji { font-size: 28px; flex-shrink: 0; }
+    .new-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .new-item p { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+
+    /* Comparison */
+    .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
+    .compare-card { padding: 28px 24px; border-radius: 20px; }
+    .compare-card.others { background: rgba(255,255,255,0.02); border: 1px solid var(--border); }
+    .compare-card.spark { background: linear-gradient(135deg, rgba(179,136,255,0.08), rgba(126,87,194,0.04)); border: 1px solid rgba(179,136,255,0.2); }
+    .compare-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+    .compare-card.spark h3 { color: var(--purple); }
+    .compare-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 13px; color: var(--text-secondary); }
+    .compare-row .icon { font-size: 14px; }
+    .compare-card.spark .compare-row { color: var(--text-primary); }
+
+    /* Pricing teaser */
+    .pricing-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; max-width: 700px; margin-left: auto; margin-right: auto; }
+    .price-card { padding: 32px 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; text-align: center; }
+    .price-card.pro { border-color: rgba(179,136,255,0.3); background: linear-gradient(135deg, rgba(179,136,255,0.06), rgba(126,87,194,0.02)); }
+    .price-name { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+    .price-name.pro-name { color: var(--purple); }
+    .price-amount { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; }
+    .price-period { font-size: 13px; color: var(--text-faint); }
+    .price-features { list-style: none; margin-top: 16px; text-align: left; }
+    .price-features li { font-size: 12px; color: var(--text-secondary); padding: 5px 0; display: flex; align-items: center; gap: 8px; }
+    .price-features li::before { content: '✓'; color: var(--green); font-weight: 700; font-size: 12px; }
+    .price-btn { display: block; margin-top: 20px; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 14px; text-align: center; transition: all 0.2s; }
+    .price-btn.free { background: rgba(255,255,255,0.06); color: var(--text-primary); border: 1px solid var(--border); }
+    .price-btn.pro-btn { background: var(--purple); color: #13111C; }
+    .price-btn:hover { transform: translateY(-2px); }
+
+    /* CTA */
+    .cta-section { text-align: center; padding: 80px 24px; }
+    .cta-section h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 40px); font-weight: 700; margin-bottom: 16px; }
+    .cta-section p { color: var(--text-secondary); margin-bottom: 32px; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+    /* Divider */
+    .divider { height: 1px; background: var(--border); max-width: 200px; margin: 0 auto; }
+
+    /* Footer */
+    footer { text-align: center; padding: 32px 20px; font-size: 12px; color: var(--text-faint); border-top: 1px solid var(--border); }
+    footer a { color: var(--text-secondary); text-decoration: none; margin: 0 8px; transition: color 0.2s; }
     footer a:hover { color: var(--purple); }
-    @media (max-width: 768px) {
-      nav {
-        padding: 16px 18px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-      }
-      .nav-links {
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px 14px;
-      }
-      .nav-links a {
-        font-size: 13px;
-      }
-      .hero {
-        padding: 34px 16px 24px;
-      }
-      .hero h1 {
-        margin: 12px 0 16px;
-        line-height: 1.2;
-      }
-      .hero p {
-        margin: 0 auto 24px;
-        font-size: 15px;
-      }
-      .store-buttons {
-        width: 100%;
-      }
-      .store-btn {
-        flex: 1 1 165px;
-        justify-content: center;
-        min-height: 46px;
-      }
-      .cards-section {
-        padding: 24px 16px 56px;
-      }
-      .cards-grid { grid-template-columns: 1fr; }
-      .card {
-        padding: 24px 18px;
-      }
-      .phone-frame {
-        max-width: 210px;
-        height: 400px;
-      }
-    }
 
+    /* Animations */
+    .fade-up { opacity: 0; transform: translateY(24px); transition: all 0.6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav { padding: 16px 18px; flex-direction: column; align-items: flex-start; gap: 12px; }
+      .nav-links { width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px 14px; }
+      .nav-links a { font-size: 13px; }
+      section { padding: 50px 0; }
+      .features-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .new-grid { grid-template-columns: 1fr; }
+      .comparison { grid-template-columns: 1fr; }
+      .pricing-cards { grid-template-columns: 1fr; }
+      .stats-banner { gap: 24px; }
+      .stat-value { font-size: 28px; }
+      .hero { padding: 50px 16px 40px; }
+    }
     @media (max-width: 420px) {
-      .hero-logo {
-        letter-spacing: -1px;
-      }
-      .nav-links {
-        grid-template-columns: 1fr;
-      }
-      .phone-frame {
-        max-width: 190px;
-        height: 360px;
-      }
+      .nav-links { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Stars (dark only) -->
-  <div id="stars"></div>
+<div id="stars"></div>
 
-  <!-- Nav -->
-  <nav>
-    <a href="/" class="nav-logo">✨ HabitSpark AI</a>
-    <div class="nav-links">
-      <a href="/" class="active">Home</a>
-      <a href="/features">Features</a>
-      <a href="/how-it-works">How it Works</a>
-      <a href="/pricing">Pricing</a>
-      <a href="/docs.html">Docs</a>
-    </div>
-  </nav>
+<!-- Nav -->
+<nav>
+  <a href="/" class="nav-logo">✨ HabitSpark AI</a>
+  <div class="nav-links">
+    <a href="/" class="active">Home</a>
+    <a href="/features">Features</a>
+    <a href="/how-it-works">How it Works</a>
+    <a href="/pricing">Pricing</a>
+    <a href="/docs.html">Docs</a>
+  </div>
+</nav>
 
-  <!-- Hero -->
-  <div class="hero">
-    <div class="hero-logo">HabitSpark AI</div>
-    <h1>Enrich Your Life,<br>One Spark at a Time</h1>
-    <p>Beautiful habit tracking with AI coaching, streaks, badges and friends that actually help you stay consistent.</p>
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-logo">HabitSpark AI</div>
+  <h1>Enrich Your Life,<br>One Spark at a Time</h1>
+  <p>1,200+ coaching tips in 7 languages. Streaks, badges, home screen widgets, and AI coaching that actually knows your patterns.</p>
+  <div class="store-buttons">
+    <a href="https://apps.apple.com" class="store-btn"> App Store</a>
+    <a href="https://play.google.com" class="store-btn primary">▶ Google Play</a>
+  </div>
+</div>
 
-    <div class="store-buttons">
-      <a href="https://apps.apple.com" class="store-btn"> App Store</a>
-      <a href="https://play.google.com" class="store-btn">▶ Google Play</a>
+<!-- Stats banner -->
+<div class="stats-banner fade-up">
+  <div class="stat-item">
+    <div class="stat-value">1,231</div>
+    <div class="stat-label">Coaching Tips</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value">7</div>
+    <div class="stat-label">Languages</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value">82</div>
+    <div class="stat-label">Tip Categories</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value">14</div>
+    <div class="stat-label">Badges to Earn</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- Core Features -->
+<section>
+  <div class="container section-center">
+    <div class="section-label">Core Features</div>
+    <div class="section-title">Everything You Need to Build Lasting Habits</div>
+    <div class="section-subtitle">Smart tracking, personalised coaching, and real insights — all on-device, instant, and beautiful.</div>
+
+    <div class="features-grid">
+      <div class="feature-card fade-up">
+        <div class="feature-icon">🤖</div>
+        <h3>AI Coach</h3>
+        <p>Local analytics engine crunches your data instantly. References your strongest days, at-risk habits, and streaks by name. Zero latency.</p>
+        <span class="feature-tag tag-free">Free</span>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-icon">💡</div>
+        <h3>1,231 Coaching Tips</h3>
+        <p>From fitness to guitar practice, meditation to coding. Auto-translated to your language. Always relevant, never generic.</p>
+        <span class="feature-tag tag-free">Free</span>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-icon">📊</div>
+        <h3>Advanced Analytics</h3>
+        <p>Weekly trends, day-of-week heatmaps, momentum scores, monthly comparisons, and a weekly report card with a letter grade.</p>
+        <span class="feature-tag tag-pro">Spark Pro</span>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-icon">📱</div>
+        <h3>Home Screen Widgets</h3>
+        <p>See today's progress without opening the app. Small widget for a quick glance, large widget for your full habit list.</p>
+        <span class="feature-tag tag-free">Free</span>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-icon">📸</div>
+        <h3>Custom Habits with Photos</h3>
+        <p>Create any habit you can imagine. Add a photo icon from camera or gallery. Auto-detects the right tip category as you type.</p>
+        <span class="feature-tag tag-pro">Spark Pro</span>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-icon">🌍</div>
+        <h3>7 Languages</h3>
+        <p>Full interface, coaching tips, suggestions, and seasonal tips in English, Spanish, French, German, Italian, Portuguese, and Dutch.</p>
+        <span class="feature-tag tag-free">Free</span>
+      </div>
     </div>
   </div>
+</section>
 
-  <!-- Cards -->
-  <section class="cards-section">
-    <div class="cards-grid">
+<div class="divider"></div>
 
-      <!-- Today's Sparks -->
-      <div class="card" onclick="showSparksDemo()">
-        <h3>Today's Sparks</h3>
-        <div class="phone-frame">
-          <img id="home-screenshot" src="Home-screen-with-habits.jpg" alt="HabitSpark app screenshot" loading="eager" decoding="async">
-          <div id="img-fallback" class="img-fallback">Screenshot failed to load.<br>Please verify Home-screen-with-habits.jpg is in the public folder.</div>
+<!-- How it Works -->
+<section>
+  <div class="container section-center">
+    <div class="section-label">How It Works</div>
+    <div class="section-title">Four Steps to Lasting Change</div>
+
+    <div class="steps-grid">
+      <div class="step-card fade-up">
+        <div class="step-number">1</div>
+        <div class="step-emoji">✨</div>
+        <h3>Pick Your Sparks</h3>
+        <p>Choose from 12 categories during onboarding. We create your starter habits automatically.</p>
+      </div>
+      <div class="step-card fade-up">
+        <div class="step-number">2</div>
+        <div class="step-emoji">🔥</div>
+        <h3>Spark Daily</h3>
+        <p>One tap to complete. Streaks grow, badges unlock, and your weekly tracker fills up.</p>
+      </div>
+      <div class="step-card fade-up">
+        <div class="step-number">3</div>
+        <div class="step-emoji">🧠</div>
+        <h3>Get Coaching</h3>
+        <p>Personalised tips from a 1,231-tip database. The AI Coach learns your patterns and adapts.</p>
+      </div>
+      <div class="step-card fade-up">
+        <div class="step-number">4</div>
+        <div class="step-emoji">📈</div>
+        <h3>Watch Yourself Grow</h3>
+        <p>Track trends, share milestones, export PDF reports, and climb the leaderboard.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- What's New -->
+<section>
+  <div class="container section-center">
+    <div class="section-label">What's New</div>
+    <div class="section-title">Packed with Features You Won't Find Elsewhere</div>
+    <div class="section-subtitle">Every feature built to help you stay consistent — not just track habits.</div>
+
+    <div class="new-grid">
+      <div class="new-item fade-up">
+        <div class="new-emoji">🏆</div>
+        <div>
+          <h4>Milestone Sharing</h4>
+          <p>Hit a 7, 14, 21, 30, or 100-day streak? Share a beautiful gradient card to Instagram, WhatsApp, or anywhere.</p>
         </div>
       </div>
-
-      <!-- FAQ - real link -->
-      <a href="/faq" class="card" style="text-decoration:none;color:inherit;">
-        <h3>FAQ</h3>
-        <div style="font-size: 120px; line-height: 1; margin: 20px 0; color: #B388FF;">?</div>
-        <p style="color:#B388FF;">Got questions? Tap for answers</p>
-      </a>
-
-      <!-- Back to App -->
-      <div class="card" onclick="launchAppDemo()">
-        <h3>Back to the App</h3>
-        <div style="font-size: 92px; margin: 20px 0;">📱</div>
-        <p>Open HabitSpark AI</p>
+      <div class="new-item fade-up">
+        <div class="new-emoji">🌸</div>
+        <div>
+          <h4>Seasonal Tips</h4>
+          <p>80 contextual tips that adapt to the month, day of week, and season. Spring energy, Monday momentum, Sunday reset.</p>
+        </div>
       </div>
-
+      <div class="new-item fade-up">
+        <div class="new-emoji">📋</div>
+        <div>
+          <h4>Weekly Report Card</h4>
+          <p>Get a letter grade every week (A+ to D) based on momentum and consistency. Personalised feedback included.</p>
+        </div>
+      </div>
+      <div class="new-item fade-up">
+        <div class="new-emoji">📅</div>
+        <div>
+          <h4>Monthly Comparison</h4>
+          <p>See this month vs last month side by side — completion rates, totals, and trend arrows.</p>
+        </div>
+      </div>
+      <div class="new-item fade-up">
+        <div class="new-emoji">🔔</div>
+        <div>
+          <h4>Smart Notifications</h4>
+          <p>Morning tips, evening nudges, and streak celebrations. Scheduled to your preferred time, translated to your language.</p>
+        </div>
+      </div>
+      <div class="new-item fade-up">
+        <div class="new-emoji">📄</div>
+        <div>
+          <h4>PDF Export</h4>
+          <p>Export your weekly or monthly analytics as a polished PDF report. Share with a coach or keep for yourself.</p>
+        </div>
+      </div>
+      <div class="new-item fade-up">
+        <div class="new-emoji">🥇</div>
+        <div>
+          <h4>Streak Rankings</h4>
+          <p>Your habits ranked by streak with medal emojis. See which habits are winning and which need attention.</p>
+        </div>
+      </div>
+      <div class="new-item fade-up">
+        <div class="new-emoji">🎵</div>
+        <div>
+          <h4>Tips for Everything</h4>
+          <p>Guitar, yoga, coding, skincare, prayer, gardening — 82 subcategories covering any habit you can create.</p>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Footer -->
-  <footer>
-    <a href="/privacy-policy">Privacy Policy</a>
-    <a href="/terms-of-service">Terms & Conditions</a>
-    <span> | © <span id="copyright-year"></span> HabitSpark AI</span>
-    <span> | Updated: <span class="last-updated"></span></span>
-  </footer>
+<div class="divider"></div>
 
-  <script>
-    // Realistic stars
-    function createStars() {
-      const container = document.getElementById('stars');
-      for (let i = 0; i < 110; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        const size = Math.random() * 2.8 + 1.2;
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.left = Math.random() * 100 + '%';
-        star.style.top = Math.random() * 100 + '%';
-        star.style.animationDelay = Math.random() * 6 + 's';
-        container.appendChild(star);
-      }
+<!-- Comparison -->
+<section>
+  <div class="container section-center">
+    <div class="section-label">Why HabitSpark</div>
+    <div class="section-title">Not Another Generic Habit App</div>
+
+    <div class="comparison">
+      <div class="compare-card others fade-up">
+        <h3>Other Habit Apps</h3>
+        <div class="compare-row"><span class="icon">—</span> Generic motivational quotes</div>
+        <div class="compare-row"><span class="icon">—</span> Basic streak counters</div>
+        <div class="compare-row"><span class="icon">—</span> No pattern analysis</div>
+        <div class="compare-row"><span class="icon">—</span> Same suggestions for everyone</div>
+        <div class="compare-row"><span class="icon">—</span> English only</div>
+        <div class="compare-row"><span class="icon">—</span> No home screen widgets</div>
+        <div class="compare-row"><span class="icon">—</span> Stats are just numbers</div>
+      </div>
+      <div class="compare-card spark fade-up">
+        <h3>✨ HabitSpark AI</h3>
+        <div class="compare-row"><span class="icon">✓</span> 1,231 specific, actionable tips</div>
+        <div class="compare-row"><span class="icon">✓</span> Momentum score + day-of-week charts</div>
+        <div class="compare-row"><span class="icon">✓</span> Auto-detects your weakest days</div>
+        <div class="compare-row"><span class="icon">✓</span> Tips matched to YOUR exact habit</div>
+        <div class="compare-row"><span class="icon">✓</span> 7 languages, auto-translated</div>
+        <div class="compare-row"><span class="icon">✓</span> Small + large home screen widgets</div>
+        <div class="compare-row"><span class="icon">✓</span> Visual stories that drive action</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Pricing Teaser -->
+<section>
+  <div class="container section-center">
+    <div class="section-label">Pricing</div>
+    <div class="section-title">Start Free. Go Pro When You're Ready.</div>
+    <div class="section-subtitle">Most features are free forever. Spark Pro unlocks the full experience.</div>
+
+    <div class="pricing-cards">
+      <div class="price-card fade-up">
+        <div class="price-name">Spark</div>
+        <div class="price-amount">£0</div>
+        <div class="price-period">Free forever</div>
+        <ul class="price-features">
+          <li>Up to 5 habits</li>
+          <li>Streaks, badges, leaderboard</li>
+          <li>Full Stats dashboard</li>
+          <li>1,231 coaching tips</li>
+          <li>7 language support</li>
+          <li>Home screen widgets</li>
+          <li>Smart notifications</li>
+        </ul>
+        <a href="https://play.google.com" class="price-btn free">Get Started Free</a>
+      </div>
+      <div class="price-card pro fade-up">
+        <div class="price-name pro-name">Spark Pro</div>
+        <div class="price-amount" style="color: var(--purple);">£3.99</div>
+        <div class="price-period">per month · or £29.99/year</div>
+        <ul class="price-features">
+          <li>Unlimited habits</li>
+          <li>Zero ads everywhere</li>
+          <li>Unlimited AI suggestions</li>
+          <li>Monthly comparison analytics</li>
+          <li>Weekly report card with grade</li>
+          <li>Custom habits with photo icons</li>
+          <li>PDF export reports</li>
+          <li>GPT-powered custom tips</li>
+        </ul>
+        <a href="https://play.google.com" class="price-btn pro-btn">Start Spark Pro</a>
+      </div>
+    </div>
+
+    <p style="margin-top: 16px; font-size: 12px; color: var(--text-faint);"><a href="/pricing" style="color: var(--purple); text-decoration: none;">View full pricing comparison →</a></p>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>Start Your First Spark Today</h2>
+  <p>Download free. Track your first habit in 30 seconds. Upgrade to Pro anytime.</p>
+  <div class="store-buttons">
+    <a href="https://apps.apple.com" class="store-btn"> App Store</a>
+    <a href="https://play.google.com" class="store-btn primary">▶ Google Play</a>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <a href="/privacy-policy">Privacy Policy</a>
+  <a href="/terms-of-service">Terms & Conditions</a>
+  <a href="/faq">FAQ</a>
+  <span> | © <span id="copyright-year"></span> HabitSpark AI</span>
+  <span> | Updated: <span class="last-updated"></span></span>
+</footer>
+
+<script>
+  // Stars
+  function createStars() {
+    const c = document.getElementById('stars');
+    for (let i = 0; i < 100; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      const size = Math.random() * 2.5 + 1;
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.left = Math.random() * 100 + '%';
+      s.style.top = Math.random() * 100 + '%';
+      s.style.animationDelay = Math.random() * 6 + 's';
+      c.appendChild(s);
     }
+  }
+  function createShootingStar() {
+    const s = document.createElement('div');
+    s.className = 'shooting-star';
+    s.style.left = Math.random() * 40 + '%';
+    s.style.top = Math.random() * 35 + '%';
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 1600);
+  }
+  createStars();
+  setInterval(() => { if (Math.random() > 0.6) createShootingStar(); }, 9000);
 
-    // Shooting stars
-    function createShootingStar() {
-      const star = document.createElement('div');
-      star.className = 'shooting-star';
-      star.style.left = Math.random() * 40 + '%';
-      star.style.top = Math.random() * 35 + '%';
-      document.body.appendChild(star);
-      setTimeout(() => star.remove(), 1600);
-    }
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-    createStars();
-    setInterval(() => { if (Math.random() > 0.6) createShootingStar(); }, 8500);
-
-    // Demos
-    function showSparksDemo() { alert("📱 Today's Sparks in the real app!"); }
-    function launchAppDemo() { alert("🚀 Opening HabitSpark AI..."); }
-
-    const homeShot = document.getElementById('home-screenshot');
-    const fallback = document.getElementById('img-fallback');
-    homeShot.addEventListener('error', () => {
-      fallback.style.display = 'flex';
-    });
-
-    const now = new Date();
-    document.getElementById('copyright-year').textContent = now.getFullYear();
-    document.querySelectorAll('.last-updated').forEach((el) => {
-      el.textContent = now.toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric'
-      });
-    });
-  </script>
+  // Year + date
+  document.getElementById('copyright-year').textContent = new Date().getFullYear();
+  document.querySelectorAll('.last-updated').forEach(el => {
+    el.textContent = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+  });
+</script>
 </body>
 </html>
