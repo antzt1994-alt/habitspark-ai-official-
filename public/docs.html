@@ -250,6 +250,11 @@
       text-align: center; padding: 24px; font-size: 12px; color: var(--text-muted);
       border-top: 1px solid var(--border);
     }
+    footer a {
+      color: var(--text-secondary); text-decoration: none; margin: 0 8px;
+      transition: color 0.2s;
+    }
+    footer a:hover { color: var(--purple); }
 
     /* ── Animations ── */
     @keyframes fade-up {
@@ -657,7 +662,10 @@
 
   <!-- Footer -->
   <footer>
-    © 2026 HabitSpark AI · Spark Your Best Habits ✨
+    <a href="/privacy-policy">Privacy Policy</a>
+    <a href="/terms-of-service">Terms & Conditions</a>
+    <a href="/faq">FAQ</a>
+    <span> | © 2026 HabitSpark AI</span>
   </footer>
 
   <script>
