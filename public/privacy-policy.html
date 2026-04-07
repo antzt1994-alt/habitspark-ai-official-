@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Privacy Policy — HabitSpark AI</title>
   <meta name="description" content="Privacy Policy for HabitSpark AI.">
+  <meta property="og:title" content="Privacy Policy — HabitSpark AI">
+  <meta property="og:description" content="Privacy Policy for HabitSpark AI.">
+  <meta property="og:url" content="https://www.habitspark.ai/privacy-policy">
+  <meta property="og:image" content="https://www.habitspark.ai/images/habitspark-og.png">
+  <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -174,7 +179,7 @@
       <p>We may amend this Privacy Policy from time to time. Material changes will be reflected by an updated effective date and, where required by law, additional notice.</p>
 
       <h2>11. Contact Us</h2>
-      <p>For privacy-related questions or requests, contact us at <a href="mailto:support@habitspark.ai">support@habitspark.ai</a>.<br>
+      <p>For privacy-related questions or requests, contact us at <a href="/cdn-cgi/l/email-protection#7c0f090c0c130e083c141d1e15080f0c1d0e17521d15"><span class="__cf_email__" data-cfemail="35464045455a4741755d54575c41464554475e1b545c">[email&#160;protected]</span></a>.<br>
       Website: <a href="https://habitspark.ai">https://habitspark.ai</a></p>
     </article>
   </main>
@@ -187,6 +192,17 @@
     <span> | Updated: <span class="last-updated"></span></span>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+  <script>
     const now = new Date();
     document.getElementById('year').textContent = now.getFullYear();
+    document.querySelectorAll('.last-updated').forEach((el) => {
+      el.textContent = now.toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+      });
+    });
+  </script>
+</body>
+</html>
