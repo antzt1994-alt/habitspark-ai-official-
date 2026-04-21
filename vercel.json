@@ -6,5 +6,16 @@
   "routes": [
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/server.js" }
+  ],
+  "headers": [
+    {
+      "source": "/privacy-policy",
+      "headers": [
+        {
+          "key": "Accept-Ranges",
+          "value": "none"
+        }
+      ]
+    }
   ]
 }
