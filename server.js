@@ -32,7 +32,12 @@ app.get('/faq', (req, res) => {
 });
 
 app.get('/privacy-policy', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'privacy-policy.html'));
+  res.sendFile(path.join(__dirname, 'public', 'privacy-policy.html'), {
+    acceptRanges: false,
+    headers: {
+      'Accept-Ranges': 'none'
+    }
+  });
 });
 
 app.get('/terms-of-service', (req, res) => {
